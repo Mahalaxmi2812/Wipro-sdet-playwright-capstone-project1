@@ -1,0 +1,19 @@
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
+
+# Environment
+.env
+
+# Auth state (contains session cookies — never commit)
+auth.json
+
+# Reports
+/allure-results/
+/allure-report/
+/screenshots/

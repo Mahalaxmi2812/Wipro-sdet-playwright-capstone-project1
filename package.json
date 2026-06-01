@@ -1,0 +1,38 @@
+{
+  "name": "wipro-sdet-playwright-capstone-project1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "npx playwright test",
+    "test:headed": "npx playwright test --headed",
+    "test:ui": "npx playwright test --ui",
+    "test:debug": "npx playwright test --debug",
+    "test:auth": "npx playwright test tests/auth.spec.js",
+    "test:forms": "npx playwright test tests/forms.spec.js",
+    "test:tables": "npx playwright test tests/tables.spec.js",
+    "test:search": "npx playwright test tests/search.spec.js",
+    "test:notifications": "npx playwright test tests/notifications.spec.js",
+    "test:dialogs": "npx playwright test tests/dialogs.spec.js",
+    "test:files": "npx playwright test tests/files.spec.js",
+    "test:api": "npx playwright test tests/api.spec.js",
+    "report": "npx allure generate allure-results --clean && npx allure open",
+    "codegen": "npx playwright codegen https://opensource-demo.orangehrmlive.com"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "@faker-js/faker": "^10.4.0",
+    "@playwright/test": "^1.60.0",
+    "allure-commandline": "^2.42.0",
+    "allure-playwright": "^3.9.0"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2"
+  }
+}
