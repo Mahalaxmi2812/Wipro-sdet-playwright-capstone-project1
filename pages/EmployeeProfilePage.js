@@ -1,9 +1,7 @@
 import { expect } from '@playwright/test';
 import path from 'path';
-import { fileURLToPath } from 'url';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const FIXTURES  = path.resolve(__dirname, '../fixtures');
+const FIXTURES = path.join(process.cwd(), 'fixtures');
 
 export class EmployeeProfilePage {
   constructor(page) {

@@ -7,10 +7,8 @@ import { defineConfig, devices } from '@playwright/test';
  */
 import dotenv from 'dotenv';
 import path from 'path';
-import { fileURLToPath } from 'url';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-dotenv.config({ path: path.resolve(__dirname, '.env') });
+dotenv.config({ path: path.join(process.cwd(), '.env') });
 
 /**
  * @see https://playwright.dev/docs/test-configuration
@@ -19,13 +17,13 @@ export default defineConfig({
   testDir: './tests',
   /* Run tests in files in parallel */
   globalSetup: './global.setup.js',
-  fullyParallel: true,
+  fullyParallel: false,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 1,
   /* Opt out of parallel tests on CI. */
-  workers: 1,
+  workers: 3,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   timeout: 90000,
   reporter: [
