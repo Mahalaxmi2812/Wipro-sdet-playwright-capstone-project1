@@ -30,14 +30,13 @@ test.describe('Notifications — Success Toast', () => {
   test('TC06 - success toast appears at bottom of page', async ({ employeePage }) => {
     const emp = testData.employee();
     await employeePage.triggerSuccessToast(emp);
-    await expect(employeePage.toastContainer).toBeVisible();
+    await expect(employeePage.toastContainer).toBeVisible({ timeout: 5000 });
   });
 
   test('TC07 - toast disappears automatically after a few seconds', async ({ employeePage }) => {
     const emp = testData.employee();
     await employeePage.triggerSuccessToast(emp);
-    await expect(employeePage.successToast).toBeVisible({ timeout: 5000 });
-    await expect(employeePage.successToast).not.toBeVisible({ timeout: 10000 });
+    await expect(employeePage.successToast).not.toBeVisible({ timeout: 15000 });
   });
 });
 
@@ -73,12 +72,15 @@ test.describe('Notifications — Validation Errors', () => {
   });
 
   test('TC11 - first name required error message is visible', async ({ employeePage }) => {
+    await employeePage.firstNameField.clear();
+    await employeePage.lastNameField.clear();
     await employeePage.submit();
     await expect(employeePage.errorMessage.first()).toContainText('Required');
   });
 
   test('TC12 - last name required error message is visible', async ({ employeePage }) => {
     await employeePage.firstNameField.fill('Test');
+    await employeePage.lastNameField.clear();
     await employeePage.submit();
     await expect(employeePage.errorMessage.first()).toContainText('Required');
   });

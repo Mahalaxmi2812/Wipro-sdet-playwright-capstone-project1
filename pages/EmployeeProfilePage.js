@@ -16,7 +16,9 @@ export class EmployeeProfilePage {
     this.tableRows        = page.locator('.oxd-table-row.oxd-table-row--with-border');
     this.errorMessage     = page.locator('.oxd-text.oxd-text--span.oxd-input-field-error-message');
     this.successToast     = page.locator('.oxd-toast.oxd-toast--success');
+    this.errorToast       = page.locator('.oxd-toast.oxd-toast--error');
     this.cancelButton     = page.getByRole('button', { name: 'Cancel' }).last();
+    this.exportButton     = page.locator('button').filter({ hasText: /export|download/i }).first();
   }
 
   async goto() {

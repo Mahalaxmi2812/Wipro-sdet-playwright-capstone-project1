@@ -39,7 +39,7 @@ export class EmployeeListPage {
     // Step 3: pick Ascending or Descending from the dropdown
     await this.page.getByRole('listitem').filter({ hasText: direction }).click();
 
-    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForLoadState('load');
     await this.clickableRows.first().waitFor({ state: 'visible' });
     const after = await this.clickableRows.allTextContents();
     return { before, after };
@@ -49,7 +49,8 @@ export class EmployeeListPage {
     const btn = this.pageButtons.filter({ hasText: String(pageNumber) });
     await expect(btn).toBeVisible();
     await btn.click();
-    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForLoadState('load');
+    await this.clickableRows.first().waitFor({ state: 'visible' });
   }
 
   async getFirstRowText() {
@@ -64,17 +65,21 @@ export class EmployeeListPage {
   async filterByName(name) {
     await this.filterInput.fill(name);
     await this.searchButton.click();
-    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForLoadState('load');
+    await Promise.race([
+      this.clickableRows.first().waitFor({ state: 'visible', timeout: 15000 }).catch(() => {}),
+      this.noRecordsMessage.first().waitFor({ state: 'visible', timeout: 15000 }).catch(() => {}),
+    ]);
   }
 
   async resetFilter() {
     await this.resetButton.click();
-    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForLoadState('load');
     await this.clickableRows.first().waitFor({ state: 'visible' });
   }
 
   async getRowCount() {
-    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForLoadState('load');
     return this.clickableRows.count();
   }
 

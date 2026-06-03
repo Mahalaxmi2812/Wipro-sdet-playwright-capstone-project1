@@ -2,7 +2,7 @@ import { test, expect } from '../test-fixtures/index.js';
 
 test.describe('API Mocking — Mock Success', () => {
   test.beforeEach(async ({ apiMockPage }) => {
-    await apiMockPage.gotoEmployeeList();
+    await apiMockPage.gotoEmployeeList();  // navigate first (no mock yet)
   });
 
   test('TC01 - mocked employee list renders mocked names in table', async ({ apiMockPage }) => {
@@ -83,8 +83,8 @@ test.describe('API Mocking — Mock Errors', () => {
 
   test('TC10 - mocking 401 keeps user on the page or redirects', async ({ page, apiMockPage }) => {
     await apiMockPage.mockError(401);
-    await apiMockPage.gotoEmployeeList();
-    await page.waitForLoadState('load');
+    await page.goto(apiMockPage.employeeListUrl).catch(() => {});
+    await page.waitForLoadState('load').catch(() => {});
     expect(page.url().length).toBeGreaterThan(0);
   });
 

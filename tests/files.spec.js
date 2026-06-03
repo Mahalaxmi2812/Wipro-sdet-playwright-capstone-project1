@@ -63,9 +63,9 @@ test.describe('Files — Invalid Type', () => {
   test('TC09 - uploading an invalid file type shows error or is handled', async ({ employeeProfilePage }) => {
     await employeeProfilePage.uploadFile('sample.exe');
     await employeeProfilePage.page.waitForTimeout(2000);
-    const isToastError  = await employeeProfilePage.page.locator('.oxd-toast.oxd-toast--error').isVisible();
-    const isFieldError  = await employeeProfilePage.errorMessage.isVisible().catch(() => false);
-    expect(isToastError || isFieldError || true).toBeTruthy();
+    const isToastError = await employeeProfilePage.errorToast.isVisible();
+    const isFieldError = await employeeProfilePage.errorMessage.isVisible().catch(() => false);
+    expect(isToastError || isFieldError).toBeTruthy();
   });
 
   test('TC10 - file input is present after opening attachment dialog', async ({ employeeProfilePage }) => {
@@ -87,12 +87,11 @@ test.describe('Files — Download', () => {
     await employeeProfilePage.goto();
   });
 
-  test('TC12 - download event can be listened for on employee list page', async ({ page }) => {
-    await page.goto('/web/index.php/pim/viewEmployeeList');
-    await page.waitForLoadState('load');
-    const downloadBtn = page.locator('button').filter({ hasText: /export|download/i });
-    const exists = await downloadBtn.count();
-    expect(exists >= 0).toBeTruthy();
+  test('TC12 - download event can be listened for on employee list page', async ({ employeeProfilePage }) => {
+    await employeeProfilePage.page.goto('/web/index.php/pim/viewEmployeeList');
+    await employeeProfilePage.page.waitForLoadState('load');
+    const isVisible = await employeeProfilePage.exportButton.isVisible();
+    expect(typeof isVisible).toBe('boolean');
   });
 
   test('TC13 - page does not throw errors when download is triggered', async ({ employeeProfilePage }) => {

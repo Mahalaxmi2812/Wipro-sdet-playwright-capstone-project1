@@ -5,7 +5,11 @@ export class ApiMockPage {
     // API endpoints to intercept
     this.employeeListEndpoint = '**/api/v2/pim/employees**';
     this.directoriesEndpoint  = '**/api/v2/directory/employees**';
-    this.jobTitlesEndpoint    = '**/api/v2/admin/job-titles**';
+    //this.jobTitlesEndpoint    = '**/api/v2/admin/job-titles**';  
+
+    //In employeelist page, the API call is made with query params, so we use a wildcard pattern to match any query string.
+    // https://opensource-demo.orangehrmlive.com/web/index.php/api/v2/pim/employees?limit=50&offset=0&model=detailed&includeEmployees=onlyCurrent&sortField=employee.firstName&sortOrder=ASC
+    //same with directory page and job titles page
 
     // Page URLs
     this.employeeListUrl = '/web/index.php/pim/viewEmployeeList';
@@ -15,7 +19,7 @@ export class ApiMockPage {
     this.tableRows    = page.locator('.oxd-table-row.oxd-table-row--with-border');
     this.clickableRows = page.locator('.oxd-table-row.oxd-table-row--with-border.oxd-table-row--clickable');
     this.resultCards  = page.locator('.orangehrm-directory-card');
-    this.noRecords    = page.getByText('No Records Found');
+    this.noRecords    = page.locator('span').filter({ hasText: 'No Records Found' });
   }
 
   async gotoEmployeeList() {
@@ -78,15 +82,15 @@ export class ApiMockPage {
   async mockSlow(delayMs = 2000) {
     await this.page.route(this.employeeListEndpoint, async route => {
       await new Promise(r => setTimeout(r, delayMs));
-      await route.continue();
+      await route.continue(); //// let real request through — just delayed
     });
   }
 
   async interceptAndModify(modifyFn) {
     await this.page.route(this.employeeListEndpoint, async route => {
-      const response = await route.fetch();
-      const json     = await response.json();
-      const modified = modifyFn
+      const response = await route.fetch();  //get real response
+      const json     = await response.json(); //parse it
+      const modified = modifyFn 
         ? modifyFn(json)
         : (() => {
             if (json.data?.[0]) json.data[0].firstName = 'Injected';

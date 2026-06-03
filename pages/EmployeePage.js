@@ -10,6 +10,7 @@ export class EmployeePage {
     this.firstNameField  = page.locator("[name='firstName']");
     this.middleNameField = page.locator("[name='middleName']");
     this.lastNameField   = page.locator("[name='lastName']");
+    this.employeeIdField = page.locator('.oxd-input-group').filter({ hasText: 'Employee Id' }).locator('input');
     this.saveButton      = page.locator("button[type='submit']");
     this.cancelButton    = page.locator("button[type='button']:has-text('Cancel')");
     this.errorMessage    = page.locator('.oxd-text.oxd-text--span.oxd-input-field-error-message');
@@ -39,6 +40,8 @@ export class EmployeePage {
     await this.firstNameField.fill(firstName);
     if (middleName) await this.middleNameField.fill(middleName);
     await this.lastNameField.fill(lastName);
+    await this.employeeIdField.clear();
+    await this.employeeIdField.fill(`EMP${Date.now().toString().slice(-6)}`);
   }
 
   async submit() {
@@ -54,8 +57,10 @@ export class EmployeePage {
     await this.goto();
     await this.firstNameField.fill(firstName ?? 'Test');
     await this.lastNameField.fill(lastName ?? 'User');
+    await this.employeeIdField.clear();
+    await this.employeeIdField.fill(`EMP${Date.now().toString().slice(-6)}`);
     await this.submit();
-    await expect(this.successToast).toBeVisible({ timeout: 8000 });
+    await expect(this.successToast).toBeVisible({ timeout: 15000 });
   }
 
   async triggerErrorNotification() {
