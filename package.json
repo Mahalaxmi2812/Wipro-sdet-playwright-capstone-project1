@@ -21,7 +21,7 @@
     "test:api": "npx playwright test tests/api.spec.js",
     "report": "npx allure generate allure-results --clean && npx allure open",
     "allure:generate": "npx allure generate allure-results",
-    "test:ci": "npx playwright test --project=chromium --project=firefox",
+    "test:ci": "npx playwright test",
     "codegen": "npx playwright codegen https://opensource-demo.orangehrmlive.com"
   },
   "keywords": [],
