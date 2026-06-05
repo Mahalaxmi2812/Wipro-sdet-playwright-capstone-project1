@@ -15,7 +15,7 @@
     "test:forms": "npx playwright test tests/forms.spec.js",
     "test:tables": "npx playwright test tests/tables.spec.js",
     "test:search": "npx playwright test tests/search.spec.js",
-    "test:notifications": "npx playwright test tests/notifications.spec.js",
+    "test:notifications": "npx playwright test tests/notifications-addon.spec.js",
     "test:dialogs": "npx playwright test tests/dialogs.spec.js",
     "test:files": "npx playwright test tests/files.spec.js",
     "test:api": "npx playwright test tests/api.spec.js",

@@ -18,6 +18,3 @@ auth.json
 /allure-report/
 /screenshots/
 
-# Capstone documents (local only)
-Capstone_Project_Report.html
-*.docx
